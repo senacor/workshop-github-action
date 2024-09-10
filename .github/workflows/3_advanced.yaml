@@ -1,0 +1,44 @@
+name: Advanced action skills
+on:
+  issue_comment:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Run tests
+        run: npm test
+  variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create date
+        id: create_date
+        run: |
+          CURRENT_DATE=$(date +'%Y-%m-%d')
+          echo "current date $CURRENT_DATE"
+          echo "current_date=$CURRENT_DATE" >> "$GITHUB_OUTPUT"
+      - name: Create image
+        run: echo "Create docker image with tag ${{ steps.create_date.outputs.current_date }}"
+      - name: Deploy tag
+        run: echo "Deploy tag ${{ steps.create_date.outputs.current_date }} to environment"
+  deploy:
+    if: contains(github.event.comment.body, '/deploy')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run on deploy comment
+        run: |
+          echo "Reference: ${{ github.ref }} or the base reference of the pull-request: ${{ github.base_ref }}"
+          echo "Deploy to a certain environment"

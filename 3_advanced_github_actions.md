@@ -1,48 +1,59 @@
-# Setting Up Self-Hosted Runners (On-Premises) (30 minutes)
+# Advanced Github action configurations
 
-Hands-On Exercise:
-Set up a self-hosted runner on a local machine or VM.
-Configure a GitHub Actions workflow to run on the self-hosted runner.
-Discussion on the differences between GitHub-hosted and self-hosted runners.
-Troubleshooting common issues.
+## Optimizing Workflows with Caching
 
-# Optimizing Workflows with Caching (20 minutes)
+Content such as node modules or other build system can be cached between different executions to run the workflows faster.
+Github provides actions to cache dependency based on configurations
 
-Hands-On Exercise:
-Implement caching in a workflow to speed up build times.
-Example:
+The following action caches node modules based on the hash value of the `package-lock.json`. 
+When a new dependency or dependency version is referenced, the lock file gets updates.
+This invalidates the cache and all dependencies are installed again.
+
+Usage:
 ```yaml
 - name: Cache dependencies
-  uses: actions/cache@v2
+  uses: actions/cache@v4
   with:
       path: node_modules
       key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
       restore-keys: |
         ${{ runner.os }}-node-
 ```
-  Discussion on when and how to use caching effectively. 
 
-# Parallel Jobs and Matrix Builds (20 minutes)
+## Use Variables between steps
 
-Hands-On Exercise:
-Create a workflow that runs tests in parallel using a matrix build.
+You define a container image tage or another variable. This variable needs to be used in another step.
+To achieve the usage of a variable in different steps, you put the variable in the Github output and reference it afterwards.
+
+```yaml
+  - name: Create timestamp
+    id: create_timestamp
+    run: |
+      CURRENT_DATE=$(date +'%Y-%m-%d')
+      echo "current date $CURRENT_DATE"
+      echo "current_timestamp=$CURRENT_DATE" >> "$GITHUB_OUTPUT"
+  - name: Create image
+    run: echo "Create docker image with tag ${{ steps.create_timestamp.outputs.current_timestamp }}"
+  - name: Deploy tag
+    run: echo "Deploy tag ${{ steps.create_timestamp.outputs.current_timestamp }} to environment"
+```
+
+## Workflow Triggers and Contexts
+
+Currently only the ``push`` trigger were used. Github provides additional triggers to run workflows.
+
 Example:
 ```yaml
+on:
+  issue_comment:
 jobs:
-  test:
+  deploy:
+    if: contains(github.event.comment.body, '/deploy')
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10, 12, 14]
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm test
+      - name: Run on deploy comment
+        run: |
+          echo "Deploy to a certain environment"
 ```
-Discussion on how to use matrix builds for cross-platform or multi-environment testing.
 
-[next >>](./4_own_github_actions.md)
+[next >>](./4_composite_actions)

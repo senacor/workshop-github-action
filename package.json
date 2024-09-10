@@ -1,0 +1,26 @@
+{
+  "name": "workshop-github-action",
+  "version": "1.0.0",
+  "description": "[Entrance here >>](./0_basics_cicd.md)",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "tap run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/senacor/workshop-github-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/senacor/workshop-github-action/issues"
+  },
+  "homepage": "https://github.com/senacor/workshop-github-action#readme",
+  "dependencies": {
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "pino-pretty": "^11.2.2",
+    "tap": "^21.0.1"
+  }
+}

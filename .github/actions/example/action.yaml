@@ -1,0 +1,17 @@
+name: Bad practice example
+description: 'This composite action to generic'
+inputs:
+  execute-command:
+    description: 'The command to execute'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Execute command
+      run: echo "Running command ${{ inputs.execute-command }}"
+      shell: bash
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.execute-command }}-artifact
+        path: ./**

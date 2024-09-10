@@ -1,0 +1,22 @@
+name: Greet and randomize
+description: 'Greet someone and create a random number as output'
+inputs:
+  who-to-greet:
+    description: 'Who to greet'
+    required: true
+outputs:
+  random-number:
+    description: "Random generated number"
+    value: ${{ steps.random-number.outputs.random-number }}
+runs:
+  using: "composite"
+  steps:
+    - name: Greet
+      run: echo "Hello $INPUT_WHO_TO_GREET."
+      shell: bash
+      env:
+        INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
+    - name: Generate random number
+      id: random-number
+      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash

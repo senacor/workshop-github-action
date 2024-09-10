@@ -1,0 +1,33 @@
+name: Bad practice
+on:
+  push:
+    branches:
+      - doesnt-exist
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - id: Install application
+        uses: ./.github/actions/example
+        with:
+          execute-command: "npm install"
+  build:
+    needs:
+      - install
+    runs-on: ubuntu-latest
+    steps:
+      - id: Install application
+        uses: ./.github/actions/example
+        with:
+          execute-command: "npm build"
+  container-build:
+    needs:
+      - install
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - id: Install application
+        uses: ./.github/actions/example
+        with:
+          execute-command: "podman build"

@@ -1,0 +1,50 @@
+name: Intermediate Action Skills
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+  docker-base:
+    runs-on: ubuntu-latest
+    container: node:hydrogen-alpine
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+  matrix:
+     runs-on: ubuntu-latest
+     strategy:
+       matrix:
+         node-version: [18, 22]
+     steps:
+       - uses: actions/checkout@v4
+       - name: Setup Node.js
+         uses: actions/setup-node@v2
+         with:
+           node-version: ${{ matrix.node-version }}
+       - name: Install dependencies
+         run: npm install
+       - name: Run tests
+         run: npm test
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy
+        run: |
+          chmod +x ./deploy/deploy.sh
+          ./deploy/deploy.sh
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
