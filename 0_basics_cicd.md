@@ -1,12 +1,17 @@
-# Overview of CI/CD
+# Github Actions
 
-Importance of CI/CD in modern software development.
-Introduction to GitHub Actions as a CI/CD tool.
-Goals for the Workshop:
+GitHub Actions is a robust and flexible build and deployment system that supports a wide range of use cases, from simple CI pipelines to complex, multi-environment deployment strategies, making it a valuable tool in modern DevOps practices.
 
-Understanding the basics of GitHub Actions.
-Creating and running workflows.
-Setting up self-hosted runners for on-premises infrastructure.
-Implementing advanced workflows, caching, and secrets management.
+* CI/CD Integration
+
+* YAML-Based Workflow Configuration
+
+* Multi-Language Support
+
+* Flexible Triggers
+
+* Secrets Management
+
+* Self-Hosted and GitHub-Hosted Runners
 
 [next >>](./1_basic_github_actions.md)
