@@ -1,0 +1,13 @@
+name: echo branchname on comment
+on:
+  issue_comment:
+jobs:
+  branchname:
+    if: contains(github.event.comment.body, '/branchname')
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo-branch
+        env:
+          BRANCH_NAME: ${{github.base_ref}}
+        run:
+          echo $BRANCH_NAME
