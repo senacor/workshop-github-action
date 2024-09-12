@@ -21,15 +21,16 @@ jobs:
                 comment_id: context.payload.comment.id,
                 content: '+1',
               });
-            }
-            try {
-              await github.rest.reactions.createForIssueComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: context.payload.comment.id,
-                content: 'heart',
-              });
-              console.log('Heart reaction added to the comment.');
-            } catch (error) {
-              console.error('Failed to add reaction', error);
+            } else {
+              try {
+                await github.rest.reactions.createForIssueComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: context.payload.comment.id,
+                  content: 'heart',
+                });
+                console.log('Heart reaction added to the comment.');
+              } catch (error) {
+                console.error('Failed to add reaction', error);
+              }
             }
