@@ -1,6 +1,7 @@
 name: Deploy to Production
 on: push
-deploy:
+jobs:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Cache dependencies
