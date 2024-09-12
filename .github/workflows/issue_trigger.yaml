@@ -1,6 +1,6 @@
 name: Advanced action skills
 on:
-  issue_comment:
+  push:
 jobs:
   deploy:
     if: contains(github.event.comment.body, '/deploy')
