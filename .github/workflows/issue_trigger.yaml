@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   deploy:
-    if: contains(github.event.comment.body, '/deploy')
+#    if: contains(github.event.comment.body, '/deploy')
     runs-on: ubuntu-latest
     steps:
       - name: Run on deploy comment
