@@ -24,7 +24,7 @@ jobs:
         CURRENT_DATE=$(date +'%Y-%m-%d')
         echo "current date $CURRENT_DATE"
         echo "current_timestamp=$CURRENT_DATE" >> "$GITHUB_OUTPUT"
-        echo "current_branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT"
+        echo "current_branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> "$GITHUB_OUTPUT"
     - name: Create image
       run: echo "Create docker image with tag ${{ steps.create_timestamp.outputs.current_timestamp }}"
     - name: Deploy tag
