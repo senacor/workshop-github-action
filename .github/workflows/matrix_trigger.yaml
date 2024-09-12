@@ -4,6 +4,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -44,3 +51,14 @@ jobs:
         run: ./deploy/deploy.sh
         env:
           API_TOKEN: ${{ secrets.API_TOKEN }}
+      - name: Create timestamp
+        id: create_timestamp
+        run: |
+          CURRENT_DATE=$(date +'%Y-%m-%d')
+          echo "current date $CURRENT_DATE"
+          echo "current_timestamp=$CURRENT_DATE" >> "$GITHUB_OUTPUT"
+      - name: Create image
+        run: echo "Create docker image with tag ${{ steps.create_timestamp.outputs.current_timestamp }}"
+      - name: Deploy tag
+        run: echo "Deploy tag ${{ steps.create_timestamp.outputs.current_timestamp }} to environment"
+
