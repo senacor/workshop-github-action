@@ -1,4 +1,4 @@
-name: First Workflow
+name: HST - Uebung 2
 on:
   push:
     branches:
