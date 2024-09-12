@@ -8,6 +8,6 @@ jobs:
     steps:
       - name: echo-branch
         env:
-          BRANCH_NAME: ${{github.base_ref}}
+          BRANCH_NAME: ${{github.ref}}
         run:
           echo $BRANCH_NAME
