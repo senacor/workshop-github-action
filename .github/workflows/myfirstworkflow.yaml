@@ -1,6 +1,9 @@
 name: Deploy to Production
-on: push
+on:
+  issue_comment:
 jobs:
+  deploy:
+    if: contains(github.event.comment.body, '/deploy')
   deploy:
     runs-on: ubuntu-latest
     steps:
