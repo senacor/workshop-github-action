@@ -1,11 +1,15 @@
-name: Advanced action skills
-on:
-  push:
+name: Node.js CI
+on: [push]
 jobs:
-  deploy:
-#    if: contains(github.event.comment.body, '/deploy')
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Run on deploy comment
-        run: |
-          echo "This is executed from the main branch"
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
